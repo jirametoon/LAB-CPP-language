@@ -1,5 +1,6 @@
 #include <iostream>
-#include <vector>
+#include <map>
+#include <list>
 using namespace std;
 
 int	main(void)
@@ -8,26 +9,24 @@ int	main(void)
 	char	c;
 	cin >> n;
 
-	vector<vector<size_t>>	train(n);
+	map<size_t, list<size_t>>	train;
 
 	while (n--)
 	{
 		cin >> c >> x >> y;
 
 		if (c == 'N')
-			train[y - 1].push_back(x);
+			train[y].push_back(x);
 		else if (c == 'M')
 		{
-			while (!train[x - 1].empty())
-			{
-				train[y - 1].push_back(train[x - 1].front());
-				train[x - 1].erase(train[x - 1].begin());
-			}
+			train[y].splice(train[y].end(), train[x]) ;
+			train[x].clear();
 		}
+
 	}
 
-	for (size_t i = 0; i < train.size(); i++)
-		for (size_t val : train[i])
+	for (const auto &key : train)
+		for (size_t val : key.second)
 			cout << val << "\n";
 	
 	return (0);
