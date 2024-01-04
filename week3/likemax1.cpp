@@ -4,7 +4,6 @@
 #include <algorithm>
 using namespace std;
 
-
 int	main(void)
 {
 	size_t	n, s, max_key = 0, max_value = 0;
