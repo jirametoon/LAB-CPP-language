@@ -10,7 +10,7 @@ OUT	:= a.out
 
 RUN	:= ./a.out
 
-CFLAGS	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra
 
 all:	${SRCS}
 

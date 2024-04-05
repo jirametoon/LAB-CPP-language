@@ -1,38 +1,37 @@
 #include <iostream>
 #include <queue>
-#include <algorithm>
 using namespace std;
 
-int	main(void)
+void solve(int n)
 {
-	size_t	n, tmp;
+    queue<int> cards;
 
-	queue<size_t>	cards, deck;
+    for (int i = 1; i <= n; i++)
+        cards.push(i);
 
-	while (cin >> n && n)
-		cards.push(n);
-
-	while (!cards.empty())
+    cout << "Discarded cards:";
+    while (cards.size() > 1)
 	{
-		for (size_t j = 0; j < cards.front(); j++)
-			deck.push(j + 1);
-		cout << "Discarded cards: ";
-		while (deck.size() > 1)
-		{
-			cout << deck.front();
-			deck.pop();
-			if (deck.size() > 1)
-				cout << ", ";
-			else 
-				break ;
-			tmp = deck.front();
-			deck.pop();
-			deck.push(tmp);
-		}
-		cout << "\n" << "Remaining card: " << deck.front() << "\n";
-		deck.pop();
-		cards.pop();
-	}
+        cout << " " << cards.front();
+        cards.pop();
 
-	return (0);
+        int x = cards.front();
+        cards.pop();
+
+        if (!cards.empty())
+            cout << ",";
+			
+        cards.push(x);
+    }
+    cout << "\nRemaining card: " << cards.front() << endl;
+}
+
+int main(void)
+{
+    int num_cards;
+
+    while (cin >> num_cards, num_cards)
+        solve(num_cards);
+
+    return (0);
 }

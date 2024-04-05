@@ -44,6 +44,7 @@ int	main(void)
 	int	n;
 
 	vector<vector<int>>	data;
+	
 	while ((cin >> n) && n)
 	{
 		vector<int>	lst(n);

@@ -3,45 +3,66 @@
 #include <vector>
 using namespace std;
 
-int	main(void)
+size_t findNearestValue(const set<size_t>& myset, size_t num)
 {
-	size_t	n, m, num;
-	cin >> n >> m;
-
-	set<size_t>		myset;
-	vector<size_t>	res;
-
-	while (n--)
+    if (num > *--myset.end())
+        return (*--myset.end());
+    else if (num < *myset.begin())
+        return (*myset.begin());
+    else if (num == *myset.find(num))
+        return (num);
+    else 
 	{
-		cin >> num;
-		myset.insert(num);
-	}
+        auto it1 = myset.upper_bound(num);
+        auto it2 = it1--;
+        if (*it2 - num >= num - *it1)
+            return (*it1);
+        else
+            return (*it2);
+    }
+}
 
+set<size_t> readInputNumbers(size_t n)
+{
+    set<size_t> myset;
+    size_t num;
 
-	while (m--)
+    while (n--) 
 	{
-		cin >> num;
+        cin >> num;
+        myset.insert(num);
+    }
+    return (myset);
+}
 
-		if (num > *--myset.end())
-			res.push_back(*--myset.end());
-		else if (num < *myset.begin())
-			res.push_back(*myset.begin());
-		else if (num == *myset.find(num))
-			res.push_back(num);
-		else
-		{
-			auto it1 = myset.upper_bound(num);
-			auto it2 = it1--;
+vector<size_t> processQueries(const set<size_t>& myset, size_t m)
+{
+    vector<size_t> res;
+    size_t num;
 
-			if (*it2 - num >= num - *it1)
-				res.push_back(*it1);
-			else
-				res.push_back(*it2);
-		}
-	}
+    while (m--) 
+	{
+        cin >> num;
+        res.push_back(findNearestValue(myset, num));
+    }
+    return (res);
+}
 
-	for (size_t val : res)
-		cout << val << "\n";
+void printResult(const vector<size_t>& res)
+{
+    for (size_t val : res)
+        cout << val << "\n";
+}
 
-	return (0);
+int main(void) 
+{
+    size_t n, m;
+    cin >> n >> m;
+
+    set<size_t> myset = readInputNumbers(n);
+    vector<size_t> res = processQueries(myset, m);
+	
+    printResult(res);
+
+    return (0);
 }

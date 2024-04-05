@@ -3,28 +3,17 @@
 #include <algorithm>
 using namespace std;
 
-void kuy1(const std::vector<size_t>& vector) {
-    std::cout << "[ ";
-    for (size_t element : vector) {
-        std::cout << element << " ";
-    }
-    std::cout << "]\n";
-}
-
-void kuy2(const std::vector<std::vector<size_t>>& matrix) {
-    for (const auto& row : matrix) {
-        kuy1(row);
-    }
-}
-
 int	main(void)
 {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	
 	size_t	l, n, m, num = 1, pos = 0, size;
 	char	c;
 	cin >> l >> n;
 
 	vector<vector<size_t>>	chain(l);
-	vector<size_t>		tmp, res;
+	vector<size_t>			tmp, res;
 
 	for (size_t i = 0; i < l; i++)
 	{
@@ -51,22 +40,40 @@ int	main(void)
 		else if (c == 'C')
 		{
 			cin >> num;
+			tmp.clear();
+			size = chain[0].size();
 
-			for (size_t i = 1; i < l; i++)
+			for (size_t i = pos + 1; i < size; i++)
 			{
-				if (num == chain[i].back())
-					sort(chain[i].rbegin(), chain[i].rend());
+				tmp.insert(tmp.begin(), chain[0].back());
+				chain[0].pop_back();
+			}
+			
+			size = chain.size();
+			for (size_t i = 1; i < size; i++)
+			{
 				if (num == chain[i].front())
 				{
-					size = chain[i].size();
-					chain[0].insert(chain[0].begin() + pos + 1, chain[i].begin(), chain[i].end());
-					chain[i].clear();
-					chain[i].insert(chain[i].begin(), chain[0].begin() + pos + 1 + size, chain[0].end());
-					chain[0].erase(chain[0].begin() + pos + 1 + size, chain[0].end());
+					for (size_t val : chain[i])
+						chain[0].push_back(val);
+					chain.erase(chain.begin() + i);
+					break ;
+				}
+				else if (num == chain[i].back())
+				{
+					reverse(chain[i].begin(), chain[i].end());
+					for (size_t val : chain[i])
+						chain[0].push_back(val);
+					chain.erase(chain.begin() + i);
+					break ;
 				}
 			}
+
+			if (!tmp.empty())
+				chain.insert(chain.end(), tmp);
 			pos++;
 		}
+
 		res.push_back(chain[0][pos]);
 	}
 
@@ -74,3 +81,21 @@ int	main(void)
 		cout << val << "\n";
 	return (0);
 }
+
+/*
+4 10
+3
+4
+2
+5
+B 
+F 
+C 9 
+C 4 
+F 
+B 
+F 
+C 3 
+F 
+C 14
+*/

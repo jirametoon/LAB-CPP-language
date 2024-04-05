@@ -3,9 +3,9 @@
 #include <algorithm>
 using namespace std;
 
-int	main(void)
+vector<vector<size_t>> get_input(void)
 {
-	size_t	n, p, v, max = 0, res = 0;
+	size_t	n, p, v;
 	cin >> n;
 
 	vector<vector<size_t>> cars(n);
@@ -16,19 +16,29 @@ int	main(void)
 		cars[i] = {p, v};
 	}
 
-	sort(cars.begin(), cars.end(), [](const vector<size_t> &vec1, const vector<size_t> &vec2) -> bool 
-	{
-		return (vec1[0] < vec2[0]);
-	});
+	sort(cars.begin(), cars.end());
+	return (cars);
+}
+
+size_t find_unsell_car(vector<vector<size_t>> &cars)
+{
+	size_t max = 0, res = 0;
 
 	for (const vector<size_t> &car : cars)
 	{
 		if (max < car[1])
-			max = car[1];
+			max = car[1];	
 		else
 			res++;
 	}
 
-	cout << res;
+	return (res);
+}
+
+int	main(void)
+{
+	vector<vector<size_t>>	cars = get_input();
+
+	cout << find_unsell_car(cars);
 	return (0);
 }

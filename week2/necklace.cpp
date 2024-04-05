@@ -4,9 +4,6 @@ using namespace std;
 
 int	main(void)
 {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-
 	size_t	n, x, y, Y, m = 0;
 	cin >> n;
 

@@ -3,36 +3,47 @@
 #include <algorithm>
 using namespace std;
 
-int	main(void)
+vector<vector<size_t>> get_input(void)
 {
-	size_t	n, d, c, dl, time, date = 0, currentpay = 0, pay = 0;
+	size_t	n, d, c;
 	cin >> n;
 
-	vector<pair<size_t, size_t>>	jobs;
+	vector<vector<size_t>> jobs(n);
 
 	for (size_t i = 0; i < n; i++)
 	{
 		cin >> d >> c;
-
-		jobs.push_back({d, c});
+		jobs[i] = {d, c};
 	}
 
 	sort(jobs.begin(), jobs.end());
+	return (jobs);
+}
 
-	for (size_t i = 0; i < n; i++)
+size_t	find_pay(vector<vector<size_t>> &jobs)
+{
+	size_t	dateline, date = 0, currentpay = 0, pay = 0;
+
+	for (auto job : jobs)
 	{
-		dl = jobs[i].first;
-		time = jobs[i].second;
-		date += time;
+		dateline = job[0];
+		date += job[1];
 
-		if (date > dl + 10)
+		if (date > dateline + 10)
 		{
-			currentpay = (date - dl - 10) * 1000;
+			currentpay = (date - dateline - 10) * 1000;
 			if (currentpay > pay)
 				pay = currentpay;
 		}
 	}
 
-	cout << pay;
+	return (pay);
+}
+
+int	main(void)
+{
+	vector<vector<size_t>>	jobs = get_input();
+
+	cout << find_pay(jobs);
 	return (0);
 }
